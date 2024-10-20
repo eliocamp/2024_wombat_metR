@@ -1,0 +1,457 @@
+---
+title: "metR Wombat"
+execute:
+  echo: true
+  cache: true
+highlight-style: solarized
+format: 
+  revealjs:
+    theme: 
+      - custom_slides.scss
+---
+
+```{r setup}
+#| echo: false
+#| cache: false
+library(metR)
+library(data.table)
+library(ggplot2)
+library(tidyfast)
+library(printr)
+
+Sys.setenv(TZ = 'GMT')
+```
+
+# Reading data
+
+----
+
+We are going to use ERA5 data, which is weather data on a regular grid.
+The data is in a NetCDF file.
+
+```{r era5_sst}
+era5_sst <- "data/era_sst.nc"
+```
+
+. . . 
+
+```{r glance-era5_sst}
+era5_sst |> 
+  metR::GlanceNetCDF() # <1>
+```
+
+1. Access file metadata
+
+
+---
+
+We can read one variable with `ReadNetCDF()`
+
+```{r sst}
+sst <- era5_sst |> 
+  metR::ReadNetCDF(vars = "sst") # <1>
+```
+
+1. Read only the sst variable
+
+By default, the result is a data.table.
+
+```{r head-sst}
+head(na.omit(sst))
+```
+
+---- 
+
+We can take a look at one slice of the data by subsetting the first time and plotting with `geom_contour_fill()` 
+
+```{r look-sst}
+sst |> 
+  _[time == time[1]] |> 
+  ggplot(aes(lon, lat)) +
+  metR::geom_contour_fill(aes(z = sst))
+```
+
+----
+
+Because this is a regular data.frame, we can use regular tidy syntax to manipulate the data. 
+For example, to compute mean monthly fields, we can use this data.table syntax: 
+
+```{r monthly-mean-sst}
+sst |> 
+  _[, .(mean = mean(sst)), by = .(lon, lat, month(time))] |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = mean)) +
+  facet_wrap(~ month)
+```
+
+---
+
+We can also add a column with the departures from that climatological cycle. 
+
+```{r anomalies-sst}
+sst <- sst[, sst_a := sst - mean(sst, na.rm = TRUE), by = .(lon, lat, month(time))]
+```
+
+---
+
+<!-- Anomalies are centered at zero, so when plotting them, it's a good idea to use a divergent scale (`scale_fill_divergent()`) and center contour breaks at zero, also excluding the zero break to highligh positive and negative areas.  -->
+
+```{r jan1998-sst}
+sst |> 
+  _[time == as.POSIXct("1998-01-01")] |>  # <1>
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = sst_a), 
+                    breaks = metR::AnchorBreaks(anchor = 0, exclude = 0)) + # <2>
+  metR::scale_fill_divergent()  # <3>
+```
+
+1. Select January 1998 because it's an intersting month
+2. Compute breaks symmetric around 0, but exclude the zero breaks. 
+3. Use a diverging scale with red as positive and blue as negative. 
+
+
+---
+
+One issue with this plot is that the breaks in the colour legend are independent of the contour breaks, so it's not easy to actually know the value that each colour represents. 
+We can use the `level` computed variable, which is a discrete variable 
+
+
+```{r discrete}
+sst |> 
+  _[time == as.POSIXct("1998-01-01")] |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = sst_a, fill = after_stat(level)),  # <1>
+                    breaks = AnchorBreaks(anchor = 0, exclude = 0)) 
+```
+
+1. Map fill to level; which is a discrete variable computed by `geom_contour_fill()`.
+
+---
+
+However, the legend now shows discrete values, obfuscating the fact that these represent values in a continum.
+Notice that the break from -1 to 1 is actually twice as wide than the others, but this is not represented in the guide. 
+It's also hard to create a divergent discrete scale centered at a particular value. 
+metR has a `discretised scale` that can handle these kinds of values. 
+
+```{r discretised}
+sst |> 
+  _[time == as.POSIXct("1998-01-01")] |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = sst_a, fill = after_stat(level)), 
+                    breaks = AnchorBreaks(anchor = 0, exclude = 0))  +
+  metR::scale_fill_divergent_discretised() # <1>
+```
+
+1. Shows discrete values on a continuous color scale with breaks in sync with the discrete breaks. 
+
+---
+
+Finally, one of my favourite tricks to guive contours a bit of flair is to use illuminated contours. 
+
+```{r tanaka}
+sst |> 
+  _[time == as.POSIXct("1998-01-01")] |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = sst_a, fill = after_stat(level)), 
+                    breaks = AnchorBreaks(anchor = 0, exclude = 0)) +
+  metR::geom_contour_tanaka(aes(z = sst_a), 
+                            breaks = AnchorBreaks(anchor = 0, exclude = 0)) + 
+  scale_fill_divergent_discretised()
+```
+
+
+---
+
+I picked 1998 because it was a special year with a monster El Niño. 
+This is a very important mode of variability that we might want to study. 
+One way of analysing it is using Principal Component Analysis, also known as EOF in the climate sciences. 
+
+---
+
+We can compute the EOFs of SST with the EOF function
+
+```{r eofs}
+sst_eofs <- sst |>
+  _[lon %between% c(150, 300) & lat %between% c(-10, 10)] |>
+  na.omit() |> 
+  _[, sst_a := sst_a*sqrt(cos(lat*pi/180))] |>   # <1> 
+  metR::EOF(sst_a ~ time | lon + lat, n = 1:10, data = _) # <2>
+```
+
+1. Weight by area.
+2. Compute the first 10 EOFs
+
+The function takes a formula that specifies the structure of the matrix and the resulting EOFs. 
+`sst_a ~ time | lon + lat` reads as `sst_a` is a function of `time` in the rows and the combination of `lon` and `lat` in the columns. 
+This formula means that the left EOFs will have dimensions of `time` (i.e. series) and the right EFOs will have dimensions of `lon` and `lat` (i.e. 2D fields):
+
+---
+
+```{r peek-eofs}
+sst_eofs
+```
+
+---
+
+
+We can take a quick look at the result with the screeplot: 
+
+```{r screeplot}
+screeplot(sst_eofs)
+```
+
+---
+
+And look at the first few componets. 
+Here I use the `cut` function to filter only the first 4 components. 
+
+```{r spatial-eofs}
+sst_eofs |> 
+  cut(1:4) |> 
+  _$right |> 
+  ggplot(aes(lon, lat)) + 
+  geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) +
+  scale_fill_divergent() +
+  facet_wrap(~ PC)
+```
+
+The first componet is a clear ENSO signal. 
+The second looks like a correction that shifts the location of the heating or cooling more to the east or west. 
+
+---
+
+One method to make EOFs more interpretable is to rotate them. 
+`EOF` has the `rotate` argument that takes a function like `varimax`. 
+
+```{r eofs-varimax}
+sst_eofs <- sst |>
+  _[lon %between% c(150, 300) & lat %between% c(-10, 10)] |>
+  na.omit() |> 
+  _[, sst_a := sst_a*sqrt(cos(lat*pi/180))] |> 
+  EOF(sst_a ~ time | lon + lat, n = 1:10, data = _, rotate = stats::varimax) 
+```
+
+---
+
+After rotation, the first and second component share a greater percentage of the variance. 
+
+```{r screeplot-varimax}
+screeplot(sst_eofs)
+```
+---
+
+They represent a more western and eastern ENSO respectively. 
+
+```{r spatial-varimax}
+sst_eofs |> 
+  cut(1:4) |> 
+  _$right |> 
+  ggplot(aes(lon, lat)) + 
+  geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) +
+  scale_fill_divergent() +
+  facet_wrap(~ PC)
+```
+
+---
+
+It would be great to have the continents as a reference. 
+There are several packages that provide coastline and country data. 
+Here, I'm going to use use a topography file and draw the zero contour as a quick shortcut. 
+`metR::geom_contour2()` is a drop-in replacement for `ggplot2::geom_contour()` with some extra tricks and black line by default.
+
+```{r topo}
+topo <- ReadNetCDF("data/topo.nc")
+```
+
+```{r eofs-topo} 
+cut(sst_eofs, 1:4) |> 
+  _$right |> 
+  ggplot(aes(lon, lat)) + 
+  geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) +
+  geom_contour2(data = topo, aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_wrap(~ PC)
+```
+
+
+---
+
+So now we have our ENSO time series, so we can ask questions such as, how does ENSO affect the atmosphere? 
+I'm going to look at geopotential height and precipitation in and around South America. 
+
+So first read the varriables
+
+```{r era5_variables}
+era5_variables <- "data/era5_variables.nc"
+```
+
+```{r glance-era5_variables}
+era5_variables |> GlanceNetCDF()
+```
+
+---
+
+```{r era5_vars}
+era5_vars <- era5_variables |> 
+  ReadNetCDF(vars = c(pp = "tp", "z"), 
+             subset = list(lon = c(180, 360), 
+                           lat= c(-90, -10))) 
+```
+
+And I will reshape this into a long dataset and compute monthly anomalies for each one. 
+
+```{r era5_vars-long, cache=FALSE}
+era5_vars <- era5_vars |> 
+  dt_pivot_longer(cols = z:pp) |> 
+  _[, value_a := value - mean(value), by = .(lon, lat, month(time), name)]
+```
+
+---
+
+Because research suggests that the location of ENSO anomalies is important to understand the impact of ENSO, I'm going to to a multivariate linear regression using the first two PCs. 
+So first we cut the EOF to keep only the first 2, reshape into wide, and then join with our dataset before doing a lienar regression at each point and also for each season.
+`FitLm()` is a wrapper around `stats::.lm.fit()`; we need to use this instead of regular old `lm()` because `lm()` is very slow at parsing the formula interface.
+
+```{r regression}
+regression <- cut(sst_eofs, 1:2)$left |> 
+  dt_pivot_wider(names_from = PC, values_from = sst_a) |> 
+  era5_vars[i = _, on = .NATURAL, allow.cartesian = TRUE] |> 
+  _[, metR::FitLm(value_a, PC1, PC2), by = .(lon, lat, season = metR::season(time), name)]
+```
+
+---
+
+For expediency, let's look only at Spring ("September-October-November"):
+
+```{r regression_spring}
+regression_spring <- regression |> 
+  _[season == "SON"] |> 
+  _[term != "(Intercept)"] 
+```
+
+```{r regression_spring-base}
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = estimate)) +
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_grid(term ~ name)
+```
+
+---
+
+
+The problem here is that precipitation and geopotential height are in completely differnet units so we cannot represent both in the same colour scale. 
+We could use different colour scales using ggnewscale, but I'm going to plot one variable with filled contours and the other with regular lines. 
+To know the value of each contour, I'm going to use the `label` aesthetic to print the level
+
+```{r regression_spring-contours}
+regression_spring <- regression_spring |> 
+  dt_pivot_wider(names_from = name, values_from = estimate)
+
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = pp)) +
+  geom_contour2(aes(z = z/9.8, linetype = after_stat(factor(sign(-level))), 
+                    label = after_stat(level))) +
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_wrap(~term, ncol = 1)
+```
+
+---
+
+
+This way we can see the interaction between the circulation and precipitation effect of ENSO. 
+An alternative way to look at geopotential height is to use the Geostrophic Wind approximation. 
+In the mid latitudes, the wind goes righly paralel to geopotential contours and clockwise around negative anomalies. 
+We can compute this circulation with `GeostrophicWind()`. 
+Because we are plotting in latlon coordinates, we then need to transform the wind vectors from physical uints to lonlat units with `dlon` and `dlat`. 
+Finally, we plot the vectors with `geom_vector()`. 
+
+```{r regression_spring-vectors}
+regression_spring <- regression_spring |> 
+  _[, c("u", "v") := metR::GeostrophicWind(z, lon, lat), by = .(term)] |> 
+  _[, c("dlon", "dlat") := list(metR::dlon(u, lat), metR::dlat(v))] 
+
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = pp)) +
+  metR::geom_vector(aes(dx = dlon, dy = dlat), skip = 4) +
+  metR::scale_mag() +
+  
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_wrap(~term, ncol = 1)
+```
+
+---
+
+
+
+An alternative that I like is to use `geom_streamline()`. 
+This draws lines that follow the flow of the vector field: 
+
+```{r regression_spring-streamlines}
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = pp)) +
+  metR::geom_streamline(aes(dx = dlon , dy = dlat),
+                        skip = 5, L = 30) +
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_wrap(~term, ncol = 1)
+```
+
+---
+
+And to add more flair (and clarity, IMHO), we can remove the arrows and signal the direction of the streamlines by mapping the linewidth to the `step` computed variable, which goes from 0 to the number of steps in the line (in this case to the forth power to make the effect more dramatic).
+
+```{r regression_spring-streamdrops}
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = pp)) +
+  geom_streamline(aes(dx = dlon , dy = dlat, 
+                      linewidth = after_stat(step^4)),
+                  arrow = NULL,
+                  skip = 5, L = 30) +
+  scale_linewidth(range = c(0.01, 0.6), guide = "none") +
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent() +
+  facet_wrap(~term, ncol = 1)
+```
+
+---
+
+So now we can start with the details. 
+The x and y axis can be printed nicer with `scale_x_longitude()` and `scale_y_latitude()`, which are thin wrappers around continuous scale with common defaults appropriate for these dimensions. 
+
+```{r regression_spring-flair}
+regression_spring |> 
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = pp, fill = after_stat(level)), 
+                    breaks = AnchorBreaks(0, exclude = 0)) +
+  geom_streamline(aes(dx = dlon , dy = dlat, 
+                      linewidth = after_stat(step^4)),
+                  arrow = NULL,
+                  skip = 5, L = 30) +
+  scale_linewidth(range = c(0.01, 0.6), guide = "none") +
+  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                aes(z = topo), breaks = 0) +
+  scale_fill_divergent_discretised(low = scales::muted("orange"), 
+                                   high = scales::muted("green")) +
+  facet_wrap(~term, ncol = 2) +
+  metR:::scale_x_longitude() +
+  metR:::scale_y_latitude()  +
+  coord_quickmap()
+```
+
+
+
+
+

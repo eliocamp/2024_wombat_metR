@@ -1,0 +1,25 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;1,9..144,200&display=swap');
+
+$font-family-sans-serif: "Commissioner", sans-serif !default;
+$font-family-monospace: "Fira+Code", monospace !default;
+$font-family-serif: "Fraunces", serif !default;
+
+$presentation-font-size-root: 35px;
+
+$teal: teal;
+$green: #93c54b;
+
+
+
+code {
+  font-family: $font-family-monospace !important;
+}
+
+
+.code-annotation-container-grid {
+  
+  font-size: 0.5em !important;
+}
