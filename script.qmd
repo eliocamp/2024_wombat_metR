@@ -12,7 +12,11 @@ title-slide-attributes:
 execute:
   echo: true
   cache: true
+  tidy: false
 highlight-style: solarized
+knitr: 
+  opts_chunk: 
+    strip.white: false
 format: 
   revealjs:
     width: 1500
@@ -38,10 +42,6 @@ Sys.setenv(TZ = 'GMT')
 
 ----
 
-```{r}
-#| cache: false
-knitr::knit_exit()
-```
 
 We are going to use ERA5 data, which is weather data on a regular grid.
 The data is in a NetCDF file.
@@ -78,6 +78,11 @@ head(na.omit(sst))
 ```
 
 ---- 
+
+
+# Plotting data
+
+----
 
 We can take a look at one slice of the data by subsetting the first time and plotting with `geom_contour_fill()` 
 
@@ -193,6 +198,17 @@ sst |>
   scale_fill_divergent_discretised()
 ```
 
+
+# Transforming data
+
+---
+
+```{r enso-intro}
+#| echo: false
+<<jan1998-sst-tanaka>>
+```
+
+
 ::: {.notes}
 
 I picked 1998 because it was a special year with a monster El Niño. 
@@ -200,7 +216,6 @@ This is a very important mode of variability that we might want to study.
 One way of analysing it is using Principal Component Analysis, also known as EOF in the climate sciences. 
 
 :::
-
 
 ---
 
@@ -222,6 +237,8 @@ sst |>
            fill = NA, colour = "black")
 ```
 
+. . .
+
 ```{r eofs}
 #| code-line-numbers: "|2|3|4|5|6"
 sst_eofs <- sst |>
@@ -235,21 +252,31 @@ sst_eofs <- sst |>
 
 ---
 
-```{r peek-eofs-sdev}
-sst_eofs$sdev  
-```
+:::: {.columns}
 
----
+::: {.column width="33%"}
+
+```{r peek-eofs-sdev}
+sst_eofs$sdev
+```
+:::
+
+::: {.column width="33%"}
 
 ```{r peek-eofs-left}
 sst_eofs$left
 ```
 
----
+:::
+
+::: {.column width="33%"}
 
 ```{r peek-eofs-right}
 sst_eofs$right
 ```
+:::
+
+::::
 
 ---
 
@@ -331,11 +358,25 @@ cut(sst_eofs, 1:2)$right |>
   facet_wrap(~ PC)
 ```
 
+---
+
+```{r}
+cut(sst_eofs, 1:2)$left |> 
+  ggplot(aes(time, sst_a)) +
+  geom_line(aes(color = PC))
+```
+
+
+# Analyse data
+
 
 ---
 
-So now we have our ENSO time series, so we can ask questions such as, how does ENSO affect the atmosphere? 
-I'm going to look at geopotential height and precipitation in and around South America. 
+## How does ENSO affect the atmosphere?   
+
+Is there a relationship between ENSO and atmospheric circulation and rain around South America? 
+
+---
 
 So first read the variables
 
@@ -348,17 +389,19 @@ era5_variables |>
   GlanceNetCDF()
 ```
 
----
+. . .
 
 ```{r era5_vars}
 #| code-line-numbers: "|2|3,4"
 era5_vars <- era5_variables |> 
   ReadNetCDF(vars = c(pp = "tp", "z"), 
              subset = list(lon = c(180, 360), 
-                           lat= c(-90, -10))) 
+                           lat = c(-90, -10))) 
 ```
 
-And I will reshape this into a long dataset and compute monthly anomalies for each one. 
+---
+
+Reshape into long and compute anomalies. 
 
 ```{r era5_vars-long, cache=FALSE}
 era5_vars <- era5_vars |> 
@@ -369,9 +412,11 @@ head(era5_vars)
 
 ---
 
+Compute linear regression 
+
 ::: {.notes}
 Because research suggests that the location of ENSO anomalies is important to understand the impact of ENSO, I'm going to to a multivariate linear regression using the first two PCs. 
-So first we cut the EOF to keep only the first 2, reshape into wide, and then join with our dataset before doing a lienar regression at each point and also for each season.
+So first we cut the EOF to keep only the first 2, reshape into wide, and then join with our dataset before doing a linear regression at each point and also for each season.
 `FitLm()` is a wrapper around `stats::.lm.fit()`; we need to use this instead of regular old `lm()` because `lm()` is very slow at parsing the formula interface.
 :::
 
@@ -382,6 +427,10 @@ regression <- cut(sst_eofs, 1:2)$left |>
   era5_vars[i = _, on = .NATURAL, allow.cartesian = TRUE] |> 
   _[, metR::FitLm(value_a, PC1, PC2),
     by = .(lon, lat, season = metR::season(time), name)]
+```
+
+```{r show-regression}
+regression
 ```
 
 ---
@@ -420,8 +469,8 @@ To know the value of each contour, I'm going to use the `label` aesthetic to pri
 regression_spring <- regression_spring |> 
   dt_pivot_wider(names_from = name, values_from = estimate)
 
-geom_topo <-   geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
-                             aes(z = topo), breaks = 0) 
+geom_topo <- geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                           aes(z = topo), breaks = 0) 
 ```
 
 ---
