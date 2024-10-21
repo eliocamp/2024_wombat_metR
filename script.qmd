@@ -5,10 +5,10 @@ author:
     affiliation: "Monash University"
 subtitle: "Open the World with Open Source, WOMBAT 2024"
 title-slide-attributes:
-  data-background-image: "img/title.png"
+  data-background-image: "img/title_crop_blur.png"
   data-background-size: contain
-  data-background-opacity: "0.35"
-  data-background-position: 50% 600%
+  data-background-opacity: "1"
+  data-background-position: "bottom"
 execute:
   echo: true
   cache: true
@@ -77,10 +77,8 @@ By default, the result is a data.table.
 head(na.omit(sst))
 ```
 
----- 
 
-
-# Plotting data
+# Plotting data {background-image="img/papel_mask.png" background-position="right" background-size="contain" background-opacity="1"}
 
 ----
 
@@ -199,7 +197,7 @@ sst |>
 ```
 
 
-# Transforming data
+# Transforming data {background-image="img/pp_blur.png" background-position="right" background-size="contain" background-opacity="1"}
 
 ---
 
@@ -258,6 +256,7 @@ sst_eofs <- sst |>
 
 ```{r peek-eofs-sdev}
 sst_eofs$sdev
+
 ```
 :::
 
@@ -367,7 +366,7 @@ cut(sst_eofs, 1:2)$left |>
 ```
 
 
-# Analyse data
+# Analyse data {background-image="img/bauhaus.png" background-position="right" background-size="contain" background-opacity="1"}
 
 
 ---
@@ -429,6 +428,8 @@ regression <- cut(sst_eofs, 1:2)$left |>
     by = .(lon, lat, season = metR::season(time), name)]
 ```
 
+. . .
+
 ```{r show-regression}
 regression
 ```
@@ -473,7 +474,7 @@ geom_topo <- geom_contour2(data = topo[lon %between% c(180, 360) & lat %between%
                            aes(z = topo), breaks = 0) 
 ```
 
----
+
 
 ```{r regression_spring-contours}
 #| code-line-numbers: "|5|6"
