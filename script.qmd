@@ -1,5 +1,14 @@
 ---
-title: "metR Wombat"
+title: "Read, manipulate and plot gridded data with metR"
+author: 
+  - name: "Elio Campitelli"
+    affiliation: "Monash University"
+subtitle: "Open the World with Open Source, WOMBAT 2024"
+title-slide-attributes:
+  data-background-image: "img/title.png"
+  data-background-size: contain
+  data-background-opacity: "0.35"
+  data-background-position: 50% 600%
 execute:
   echo: true
   cache: true
@@ -25,9 +34,14 @@ library(tidyfast)
 Sys.setenv(TZ = 'GMT')
 ```
 
-# Reading data
+# Reading data {background-image="img/mosaico-half.png" background-position="right" background-size="contain" background-opacity="1"}
 
 ----
+
+```{r}
+#| cache: false
+knitr::knit_exit()
+```
 
 We are going to use ERA5 data, which is weather data on a regular grid.
 The data is in a NetCDF file.
@@ -555,5 +569,13 @@ regression_spring |>
         legend.frame = element_rect(colour = "black", linewidth = 0.1),
         legend.key.height = grid::unit(0.5, "lines"))
 ```
+
+---
+
+# Thanks! {background-image="img/logo.png" background-position="85% 50%" background-size=500px background-opacity="1"}
+
+[eliocamp.github.io/metR/](https://eliocamp.github.io/metR/)
+
+[eliocamp.github.io/](https://eliocamp.github.io/)
 
 
