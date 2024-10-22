@@ -407,7 +407,7 @@ Elio Campitelli
 
 </section>
 <section>
-<section id="reading-data" class="title-slide slide level1 center" data-background-image="img/mosaico-half.png" data-background-position="right" data-background-size="contain" data-background-opacity="1">
+<section id="reading-data" class="title-slide slide level1 center" data-background-image="img/mosaico.png" data-background-position="right" data-background-size="contain" data-background-opacity="1">
 <h1>Reading data</h1>
 
 </section>
@@ -419,16 +419,8 @@ Elio Campitelli
 </div>
 <div class="fragment">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1"></a>era5_sst <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2"></a>  metR<span class="sc">::</span><span class="fu">GlanceNetCDF</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="1">Access file metadata</span>
-</dd>
-</dl>
-</div>
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>era5_sst <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href=""></a>  metR<span class="sc">::</span><span class="fu">GlanceNetCDF</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>----- Variables ----- 
 sst:
@@ -448,29 +440,26 @@ sst:
 
 <p>We can read one variable with <code>ReadNetCDF()</code></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1"></a>sst <span class="ot">&lt;-</span> era5_sst <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2"></a>  metR<span class="sc">::</span><span class="fu">ReadNetCDF</span>(<span class="at">vars =</span> <span class="st">"sst"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">Read only the sst variable</span>
-</dd>
-</dl>
-</div>
+<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>sst <span class="ot">&lt;-</span> era5_sst <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href=""></a>  metR<span class="sc">::</span><span class="fu">ReadNetCDF</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By default, the result is a data.table.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">head</span>(<span class="fu">na.omit</span>(sst))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">na.omit</span>(sst)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         time    lat   lon      sst
-       &lt;POSc&gt;  &lt;num&gt; &lt;num&gt;    &lt;num&gt;
-1: 1980-01-01 -76.25 165.0 271.6997
-2: 1980-01-01 -76.25 167.5 272.1290
-3: 1980-01-01 -76.25 170.0 272.8590
-4: 1980-01-01 -76.25 172.5 272.6795
-5: 1980-01-01 -76.25 175.0 272.5256
-6: 1980-01-01 -76.25 177.5 273.0103</code></pre>
+<pre><code>               time    lat   lon      sst
+             &lt;POSc&gt;  &lt;num&gt; &lt;num&gt;    &lt;num&gt;
+      1: 1980-01-01 -76.25 165.0 271.6997
+      2: 1980-01-01 -76.25 167.5 272.1290
+      3: 1980-01-01 -76.25 170.0 272.8590
+      4: 1980-01-01 -76.25 172.5 272.6795
+      5: 1980-01-01 -76.25 175.0 272.5256
+     ---                                 
+3409292: 2023-12-01  88.75 347.5 271.4602
+3409293: 2023-12-01  88.75 350.0 271.4602
+3409294: 2023-12-01  88.75 352.5 271.4602
+3409295: 2023-12-01  88.75 355.0 271.4602
+3409296: 2023-12-01  88.75 357.5 271.4602</code></pre>
 </div>
 </div>
 </section></section>
@@ -483,36 +472,34 @@ sst:
 
 <p>We can take a look at one slice of the data by subsetting the first time and plotting with <code>geom_contour_fill()</code></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|2|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href=""></a>  _[time <span class="sc">==</span> time[<span class="dv">1</span>]] <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb5-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7" data-code-line-numbers="|2|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb7-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/look-sst-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section class="slide level2">
 
+<!-- ```{r monthly-mean-sst} -->
+<!-- #| code-line-numbers: "|2" -->
+<!-- sst |>  -->
+<!--   _[, .(mean = mean(sst)), by = .(lon, lat, month(time))] |>  -->
+<!--   ggplot(aes(lon, lat)) + -->
+<!--   geom_contour_fill(aes(z = mean)) + -->
+<!--   facet_wrap(~ month) -->
+<!-- ``` -->
+<!-- --- -->
+<!-- We can also add a column with the departures from that climatological cycle.  -->
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href=""></a>  _[, .(<span class="at">mean =</span> <span class="fu">mean</span>(sst)), by <span class="ot">=</span> .(lon, lat, <span class="fu">month</span>(time))] <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> mean)) <span class="sc">+</span></span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="script_files/figure-revealjs/monthly-mean-sst-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<p>We can also add a column with the departures from that climatological cycle.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>sst <span class="ot">&lt;-</span> sst[, sst_a <span class="sc">:</span><span class="er">=</span> sst <span class="sc">-</span> <span class="fu">mean</span>(sst, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-2"><a href=""></a>           by <span class="ot">=</span> .(lon, lat, <span class="fu">month</span>(time))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>sst <span class="ot">&lt;-</span> sst[, sst_a <span class="sc">:</span><span class="er">=</span> sst <span class="sc">-</span> <span class="fu">mean</span>(sst, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-2"><a href=""></a>           by <span class="ot">=</span> .(lon, lat, <span class="fu">month</span>(time))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb8-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="|2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/jan1998-sst-viridis-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -525,11 +512,11 @@ sst:
 
 <!-- Anomalies are centered at zero, so when plotting them, it's a good idea to use a divergent scale (`scale_fill_divergent()`) and center contour breaks at zero, also excluding the zero break to highligh positive and negative areas.  -->
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
-<span id="cb9-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a)) <span class="sc">+</span></span>
-<span id="cb9-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_fill_divergent</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb10-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_fill_divergent</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/jan1998-sst-div-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -538,12 +525,31 @@ sst:
 <!-- One issue with this plot is that the breaks in the colour legend are independent of the contour breaks, so it's not easy to actually know the value that each colour represents.  -->
 <!-- We can use the `level` computed variable, which is a discrete variable  -->
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
-<span id="cb10-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb10-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, </span>
-<span id="cb10-5"><a href=""></a>                        <span class="at">fill =</span> <span class="fu">after_stat</span>(level))) <span class="sc">+</span> </span>
-<span id="cb10-6"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, </span>
+<span id="cb11-5"><a href=""></a>                        <span class="at">fill =</span> <span class="fu">after_stat</span>(level))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="script_files/figure-revealjs/jan1998-sst-discrete-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb12-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, </span>
+<span id="cb12-5"><a href=""></a>                        <span class="at">fill =</span> <span class="fu">after_stat</span>(level))) <span class="sc">+</span></span>
+<span id="cb12-6"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <!-- 1. Map fill to level; which is a discrete (factor) variable computed by `geom_contour_fill()`. -->
@@ -552,18 +558,15 @@ sst:
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
-<span id="cb11-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb11-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)),</span>
-<span id="cb11-5"><a href=""></a>                    <span class="at">breaks =</span> metR<span class="sc">::</span><span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span> </span>
-<span id="cb11-6"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb13-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)),</span>
+<span id="cb13-5"><a href=""></a>                    <span class="at">breaks =</span> metR<span class="sc">::</span><span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb13-6"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="script_files/figure-revealjs/jan1998-sst-anchor-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<aside class="notes">
+<img data-src="script_files/figure-revealjs/jan1998-sst-anchor-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><aside class="notes">
 <p>Finally, one of my favourite tricks to give contours a bit of flair is to use illuminated contours.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -576,15 +579,18 @@ sst:
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section class="slide level2">
+
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12" data-code-line-numbers="|6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
-<span id="cb12-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb12-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)),</span>
-<span id="cb12-5"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span> </span>
-<span id="cb12-6"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_contour_tanaka</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a),</span>
-<span id="cb12-7"><a href=""></a>                            <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb12-8"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="|6,7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sst <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href=""></a>  _[time <span class="sc">==</span> <span class="fu">as.POSIXct</span>(<span class="st">"1998-01-01"</span>)] <span class="sc">|&gt;</span>  </span>
+<span id="cb14-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)),</span>
+<span id="cb14-5"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb14-6"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_contour_tanaka</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a),</span>
+<span id="cb14-7"><a href=""></a>                            <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="at">anchor =</span> <span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/jan1998-sst-tanaka-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section></section>
@@ -616,13 +622,14 @@ sst:
 
 <img data-src="script_files/figure-revealjs/ensoregion-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><div class="fragment">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13" data-code-line-numbers="|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>sst_eofs <span class="ot">&lt;-</span> sst <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href=""></a>  _[lon <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">280</span>) <span class="sc">&amp;</span> lat <span class="sc">%between%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)] <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href=""></a>  _[, sst_a <span class="sc">:</span><span class="er">=</span> sst_a<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">cos</span>(lat<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))] <span class="sc">|&gt;</span>  </span>
-<span id="cb13-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">EOF</span>(sst_a <span class="sc">~</span> time <span class="sc">|</span> lon <span class="sc">+</span> lat, </span>
-<span id="cb13-6"><a href=""></a>            <span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, </span>
-<span id="cb13-7"><a href=""></a>            <span class="at">data =</span> _) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="|2|3|4|5|6|7|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>sst_eofs <span class="ot">&lt;-</span> sst <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href=""></a>  _[lon <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">280</span>) <span class="sc">&amp;</span> lat <span class="sc">%between%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)] <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href=""></a>  _[, sst_a <span class="sc">:</span><span class="er">=</span> sst_a<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">cos</span>(lat<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))] <span class="sc">|&gt;</span>  </span>
+<span id="cb15-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">EOF</span>(sst_a <span class="sc">~</span> time <span class="sc">|</span> lon <span class="sc">+</span> lat, </span>
+<span id="cb15-6"><a href=""></a>            <span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, </span>
+<span id="cb15-7"><a href=""></a>            <span class="at">rotate =</span> stats<span class="sc">::</span>varimax,</span>
+<span id="cb15-8"><a href=""></a>            <span class="at">data =</span> _) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -631,58 +638,58 @@ sst:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sst_eofs<span class="sc">$</span>sdev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>sst_eofs<span class="sc">$</span>sdev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       PC        sd          r2
     &lt;ord&gt;     &lt;num&gt;       &lt;num&gt;
- 1:   PC1 300.86988 0.672526547
- 2:   PC2 130.11457 0.125777759
- 3:   PC3  73.44787 0.040078407
- 4:   PC4  63.02089 0.029506725
- 5:   PC5  52.14518 0.020201346
- 6:   PC6  43.70379 0.014190256
- 7:   PC7  38.77894 0.011172333
- 8:   PC8  29.51082 0.006470152
- 9:   PC9  27.84677 0.005761051
-10:  PC10  26.47696 0.005208208</code></pre>
+ 1:   PC1 246.69389 0.452135678
+ 2:   PC2 191.47526 0.272381323
+ 3:   PC3  80.86637 0.048583395
+ 4:   PC4  81.05188 0.048806556
+ 5:   PC5  41.93347 0.013063920
+ 6:   PC6  43.76298 0.014228719
+ 7:   PC7  45.42525 0.015330160
+ 8:   PC8  31.35964 0.007306241
+ 9:   PC9  83.86309 0.052250894
+10:  PC10  30.26682 0.006805900</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>sst_eofs<span class="sc">$</span>left</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>sst_eofs<span class="sc">$</span>left</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            time    PC        sst_a
-          &lt;POSc&gt; &lt;ord&gt;        &lt;num&gt;
-   1: 1980-01-01   PC1 -0.019252316
-   2: 1980-02-01   PC1 -0.007689172
-   3: 1980-03-01   PC1 -0.005731776
-   4: 1980-04-01   PC1 -0.008607639
-   5: 1980-05-01   PC1 -0.001143759
-  ---                              
-5276: 2023-08-01  PC10  0.035440127
-5277: 2023-09-01  PC10  0.065182685
-5278: 2023-10-01  PC10  0.036879878
-5279: 2023-11-01  PC10 -0.008752136
-5280: 2023-12-01  PC10 -0.031711463</code></pre>
+<pre><code>            time    PC         sst_a
+          &lt;POSc&gt; &lt;ord&gt;         &lt;num&gt;
+   1: 1980-01-01   PC1  0.0202185822
+   2: 1980-02-01   PC1  0.0356496417
+   3: 1980-03-01   PC1  0.0165194560
+   4: 1980-04-01   PC1  0.0146660265
+   5: 1980-05-01   PC1  0.0129134123
+  ---                               
+5276: 2023-08-01  PC10 -0.0100742359
+5277: 2023-09-01  PC10  0.0206036192
+5278: 2023-10-01  PC10 -0.0003215635
+5279: 2023-11-01  PC10 -0.0460501965
+5280: 2023-12-01  PC10 -0.0562828061</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>sst_eofs<span class="sc">$</span>right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>sst_eofs<span class="sc">$</span>right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>        lon   lat    PC      sst_a
-      &lt;num&gt; &lt;num&gt; &lt;ord&gt;      &lt;num&gt;
-   1: 150.0 -8.75   PC1 0.02017407
-   2: 152.5 -8.75   PC1 0.01678406
-   3: 155.0 -8.75   PC1 0.01752412
-   4: 157.5 -8.75   PC1 0.01821094
-   5: 160.0 -8.75   PC1 0.01008606
-  ---                             
-4146: 265.0  8.75  PC10 0.03777417
-4147: 267.5  8.75  PC10 0.09978071
-4148: 270.0  8.75  PC10 0.16587637
-4149: 272.5  8.75  PC10 0.09926842
-4150: 275.0  8.75  PC10 0.02879130</code></pre>
+<pre><code>        lon   lat    PC        sst_a
+      &lt;num&gt; &lt;num&gt; &lt;ord&gt;        &lt;num&gt;
+   1: 150.0 -8.75   PC1  0.007035865
+   2: 152.5 -8.75   PC1  0.003919668
+   3: 155.0 -8.75   PC1  0.008060878
+   4: 157.5 -8.75   PC1  0.008923050
+   5: 160.0 -8.75   PC1  0.005384709
+  ---                               
+4146: 265.0  8.75  PC10 -0.008582505
+4147: 267.5  8.75  PC10  0.048792346
+4148: 270.0  8.75  PC10  0.117126323
+4149: 272.5  8.75  PC10  0.055202689
+4150: 275.0  8.75  PC10 -0.024152003</code></pre>
 </div>
 </div>
 </div></div>
@@ -691,96 +698,46 @@ sst:
 
 <p>Quick look with <code>screeplot()</code>:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">screeplot</span>(sst_eofs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">screeplot</span>(sst_eofs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/screeplot-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="|2|3|9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>sst_eofs <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href=""></a>  <span class="fu">cut</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href=""></a>  _<span class="sc">$</span>right <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span> </span>
-<span id="cb21-5"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a), </span>
-<span id="cb21-6"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">binwidth =</span> <span class="fl">0.02</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb21-7"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb21-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PC, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-9"><a href=""></a>  tagger<span class="sc">::</span><span class="fu">tag_facets</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>sst_eofs <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href=""></a>  <span class="fu">cut</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href=""></a>  _<span class="sc">$</span>right <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span> </span>
+<span id="cb23-5"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a), </span>
+<span id="cb23-6"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">binwidth =</span> <span class="fl">0.02</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
+<span id="cb23-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PC, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href=""></a>  tagger<span class="sc">::</span><span class="fu">tag_facets</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
+<!-- --- -->
+<!-- Add continents as reference.  -->
+<!-- Quick trick: draw zero contour of topography.  -->
+<!-- ```{r eofs-topo}  -->
+<!-- #| code-line-numbers: "|4" -->
+<!-- cut(sst_eofs, 1:2)$right |>  -->
+<!--   ggplot(aes(lon, lat)) +  -->
+<!--   geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) + -->
+<!--   metR::geom_contour2(data = topo, aes(z = topo), breaks = 0) + -->
+<!--   scale_fill_divergent() + -->
+<!--   facet_wrap(~ PC) -->
+<!-- ``` -->
 <img data-src="script_files/figure-revealjs/spatial-eofs-hl-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section class="slide level2">
 
-<p>Rotate EOFs with the <code>rotate</code> argument.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>sst_eofs <span class="ot">&lt;-</span> sst <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href=""></a>  _[lon <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">280</span>) <span class="sc">&amp;</span> lat <span class="sc">%between%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)] <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb22-4"><a href=""></a>  _[, sst_a <span class="sc">:</span><span class="er">=</span> sst_a<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">cos</span>(lat<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))] <span class="sc">|&gt;</span> </span>
-<span id="cb22-5"><a href=""></a>  <span class="fu">EOF</span>(sst_a <span class="sc">~</span> time <span class="sc">|</span> lon <span class="sc">+</span> lat, <span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">data =</span> _, </span>
-<span id="cb22-6"><a href=""></a>      <span class="at">rotate =</span> stats<span class="sc">::</span>varimax) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section class="slide level2">
-
-<aside class="notes">
-<p>After rotation, the first and second component share a greater percentage of the variance.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">screeplot</span>(sst_eofs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">cut</span>(sst_eofs, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)<span class="sc">$</span>left <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, sst_a)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> PC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="script_files/figure-revealjs/screeplot-varimax-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>sst_eofs <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href=""></a>  <span class="fu">cut</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-3"><a href=""></a>  _<span class="sc">$</span>right <span class="sc">|&gt;</span> </span>
-<span id="cb24-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span> </span>
-<span id="cb24-5"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a), <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb24-6"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb24-7"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PC) <span class="sc">+</span></span>
-<span id="cb24-8"><a href=""></a>  tagger<span class="sc">::</span><span class="fu">tag_facets</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="script_files/figure-revealjs/spatial-varimax-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<p>Add continents as reference. Quick trick: draw zero contour of topography.</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>topo <span class="ot">&lt;-</span> <span class="fu">ReadNetCDF</span>(<span class="st">"data/topo.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb26" data-code-line-numbers="|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">cut</span>(sst_eofs, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)<span class="sc">$</span>right <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span> </span>
-<span id="cb26-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> sst_a), <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb26-4"><a href=""></a>  <span class="fu">geom_contour2</span>(<span class="at">data =</span> topo, <span class="fu">aes</span>(<span class="at">z =</span> topo), <span class="at">breaks =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb26-5"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb26-6"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="script_files/figure-revealjs/eofs-topo-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">cut</span>(sst_eofs, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)<span class="sc">$</span>left <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, sst_a)) <span class="sc">+</span></span>
-<span id="cb27-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> PC))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="script_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section></section>
+<img data-src="script_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section></section>
 <section>
 <section id="analyse-data" class="title-slide slide level1 center" data-background-image="img/bauhaus.png" data-background-position="right" data-background-size="contain" data-background-opacity="1">
 <h1>Analyse data</h1>
@@ -794,11 +751,11 @@ sst:
 
 <p>So first read the variables</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>era5_variables <span class="ot">&lt;-</span> <span class="st">"data/era5_variables.nc"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>era5_variables <span class="ot">&lt;-</span> <span class="st">"data/era5_variables.nc"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>era5_variables <span class="sc">|&gt;</span> </span>
-<span id="cb29-2"><a href=""></a>  <span class="fu">GlanceNetCDF</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>era5_variables <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href=""></a>  <span class="fu">GlanceNetCDF</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>----- Variables ----- 
 z:
@@ -818,10 +775,11 @@ tp:
 </div>
 <div class="fragment">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb31" data-code-line-numbers="|2|3,4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>era5_vars <span class="ot">&lt;-</span> era5_variables <span class="sc">|&gt;</span> </span>
-<span id="cb31-2"><a href=""></a>  <span class="fu">ReadNetCDF</span>(<span class="at">vars =</span> <span class="fu">c</span>(<span class="at">pp =</span> <span class="st">"tp"</span>, <span class="st">"z"</span>), </span>
-<span id="cb31-3"><a href=""></a>             <span class="at">subset =</span> <span class="fu">list</span>(<span class="at">lon =</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">360</span>), </span>
-<span id="cb31-4"><a href=""></a>                           <span class="at">lat =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">10</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28" data-code-line-numbers="|2|3,4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>era5_vars <span class="ot">&lt;-</span> era5_variables <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">ReadNetCDF</span>(<span class="at">vars =</span> <span class="fu">c</span>(<span class="at">pp =</span> <span class="st">"tp"</span>, <span class="st">"z"</span>), </span>
+<span id="cb28-3"><a href=""></a>             <span class="at">subset =</span> <span class="fu">list</span>(<span class="at">lon =</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">360</span>), </span>
+<span id="cb28-4"><a href=""></a>                           <span class="at">lat =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">10</span>),</span>
+<span id="cb28-5"><a href=""></a>                           <span class="at">level =</span> <span class="dv">500</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -829,60 +787,84 @@ tp:
 
 <p>Reshape into long and compute anomalies.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>era5_vars <span class="ot">&lt;-</span> era5_vars <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href=""></a>  <span class="fu">dt_pivot_longer</span>(<span class="at">cols =</span> z<span class="sc">:</span>pp) <span class="sc">|&gt;</span> </span>
-<span id="cb32-3"><a href=""></a>  _[, value_a <span class="sc">:</span><span class="er">=</span> value <span class="sc">-</span> <span class="fu">mean</span>(value), by <span class="ot">=</span> .(lon, lat, <span class="fu">month</span>(time), name)]</span>
-<span id="cb32-4"><a href=""></a><span class="fu">head</span>(era5_vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>era5_vars <span class="ot">&lt;-</span> era5_vars <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href=""></a>  <span class="fu">dt_pivot_longer</span>(<span class="at">cols =</span> z<span class="sc">:</span>pp) <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href=""></a>  _[, value_a <span class="sc">:</span><span class="er">=</span> value <span class="sc">-</span> <span class="fu">mean</span>(value), by <span class="ot">=</span> .(lon, lat, <span class="fu">month</span>(time), name)]</span>
+<span id="cb29-4"><a href=""></a><span class="fu">head</span>(era5_vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         time level   lat   lon   name    value  value_a
        &lt;POSc&gt; &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;char&gt;    &lt;num&gt;    &lt;num&gt;
-1: 1980-01-01   200 -89.5   180      z 110152.4 52696.64
-2: 1980-01-01   200 -89.5   181      z 110152.7 52697.01
-3: 1980-01-01   200 -89.5   182      z 110153.0 52697.38
-4: 1980-01-01   200 -89.5   183      z 110153.2 52697.62
-5: 1980-01-01   200 -89.5   184      z 110153.3 52697.71
-6: 1980-01-01   200 -89.5   185      z 110153.5 52697.81</code></pre>
+1: 1980-01-01   500 -89.5   180      z 50311.02 61.91504
+2: 1980-01-01   500 -89.5   181      z 50311.02 62.04288
+3: 1980-01-01   500 -89.5   182      z 50311.02 62.17072
+4: 1980-01-01   500 -89.5   183      z 50311.02 62.28738
+5: 1980-01-01   500 -89.5   184      z 50311.02 62.39284
+6: 1980-01-01   500 -89.5   185      z 50311.02 62.49822</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Join data and EOFs</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>for_regression <span class="ot">&lt;-</span> <span class="fu">cut</span>(sst_eofs, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)<span class="sc">$</span>left <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href=""></a>  <span class="fu">dt_pivot_wider</span>(<span class="at">names_from =</span> PC, <span class="at">values_from =</span> sst_a) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href=""></a>  <span class="fu">merge</span>(era5_vars)</span>
+<span id="cb31-4"><a href=""></a></span>
+<span id="cb31-5"><a href=""></a>for_regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Key: &lt;time&gt;
+                time         PC1         PC2 level   lat   lon   name
+              &lt;POSc&gt;       &lt;num&gt;       &lt;num&gt; &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;char&gt;
+       1: 1980-01-01  0.02021858 -0.03311131   500 -89.5   180      z
+       2: 1980-01-01  0.02021858 -0.03311131   500 -89.5   181      z
+       3: 1980-01-01  0.02021858 -0.03311131   500 -89.5   182      z
+       4: 1980-01-01  0.02021858 -0.03311131   500 -89.5   183      z
+       5: 1980-01-01  0.02021858 -0.03311131   500 -89.5   184      z
+      ---                                                            
+15206396: 2023-12-01 -0.08664352 -0.06273200   500 -10.5   355     pp
+15206397: 2023-12-01 -0.08664352 -0.06273200   500 -10.5   356     pp
+15206398: 2023-12-01 -0.08664352 -0.06273200   500 -10.5   357     pp
+15206399: 2023-12-01 -0.08664352 -0.06273200   500 -10.5   358     pp
+15206400: 2023-12-01 -0.08664352 -0.06273200   500 -10.5   359     pp
+                 value      value_a
+                 &lt;num&gt;        &lt;num&gt;
+       1: 5.031102e+04 6.191504e+01
+       2: 5.031102e+04 6.204288e+01
+       3: 5.031102e+04 6.217072e+01
+       4: 5.031102e+04 6.228738e+01
+       5: 5.031102e+04 6.239284e+01
+      ---                          
+15206396: 4.284156e-04 1.182178e-04
+15206397: 4.273526e-04 1.400348e-04
+15206398: 3.901453e-04 1.278820e-04
+15206399: 3.391181e-04 9.659404e-05
+15206400: 3.008477e-04 6.760133e-05</code></pre>
 </div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Compute linear regression</p>
-<aside class="notes">
-<p>Because research suggests that the location of ENSO anomalies is important to understand the impact of ENSO, I’m going to to a multivariate linear regression using the first two PCs. So first we cut the EOF to keep only the first 2, reshape into wide, and then join with our dataset before doing a linear regression at each point and also for each season. <code>FitLm()</code> is a wrapper around <code>stats::.lm.fit()</code>; we need to use this instead of regular old <code>lm()</code> because <code>lm()</code> is very slow at parsing the formula interface.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34" data-code-line-numbers="|4|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>regression <span class="ot">&lt;-</span> <span class="fu">cut</span>(sst_eofs, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)<span class="sc">$</span>left <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a href=""></a>  <span class="fu">dt_pivot_wider</span>(<span class="at">names_from =</span> PC, <span class="at">values_from =</span> sst_a) <span class="sc">|&gt;</span> </span>
-<span id="cb34-3"><a href=""></a>  era5_vars[i <span class="ot">=</span> _, on <span class="ot">=</span> .NATURAL, allow.cartesian <span class="ot">=</span> <span class="cn">TRUE</span>] <span class="sc">|&gt;</span> </span>
-<span id="cb34-4"><a href=""></a>  _[, metR<span class="sc">::</span><span class="fu">FitLm</span>(value_a, PC1, PC2),</span>
-<span id="cb34-5"><a href=""></a>    by <span class="ot">=</span> .(lon, lat, <span class="at">season =</span> metR<span class="sc">::</span><span class="fu">season</span>(time), name)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="|2|1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>regression <span class="ot">&lt;-</span> for_regression[, metR<span class="sc">::</span><span class="fu">FitLm</span>(value_a, PC1, PC2),</span>
+<span id="cb33-2"><a href=""></a>                             by <span class="ot">=</span> .(lon, lat, <span class="at">season =</span> metR<span class="sc">::</span><span class="fu">season</span>(time), name)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          lon   lat season   name        term      estimate
         &lt;num&gt; &lt;num&gt; &lt;fctr&gt; &lt;char&gt;      &lt;char&gt;         &lt;num&gt;
-     1:   180 -89.5    DJF      z (Intercept) -1.082169e-12
-     2:   180 -89.5    DJF      z         PC1 -3.185336e+02
-     3:   180 -89.5    DJF      z         PC2 -2.215233e+03
-     4:   181 -89.5    DJF      z (Intercept) -2.354061e-12
-     5:   181 -89.5    DJF      z         PC1 -3.195499e+02
+     1:   180 -89.5    DJF      z (Intercept)  5.150675e-13
+     2:   180 -89.5    DJF      z         PC1 -1.658358e+02
+     3:   180 -89.5    DJF      z         PC2 -1.629306e+03
+     4:   181 -89.5    DJF      z (Intercept) -1.018106e-12
+     5:   181 -89.5    DJF      z         PC1 -1.664537e+02
     ---                                                    
 345596:   358 -10.5    SON     pp         PC1  1.095372e-04
 345597:   358 -10.5    SON     pp         PC2  8.427022e-05
-345598:   359 -10.5    SON     pp (Intercept)  8.965749e-21
+345598:   359 -10.5    SON     pp (Intercept)  6.953177e-21
 345599:   359 -10.5    SON     pp         PC1  6.628679e-05
 345600:   359 -10.5    SON     pp         PC2  2.318171e-05</code></pre>
 </div>
@@ -905,18 +887,17 @@ tp:
           display:block!important;
       }</style></aside>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression <span class="sc">|&gt;</span> </span>
-<span id="cb37-2"><a href=""></a>  _[season <span class="sc">==</span> <span class="st">"SON"</span>] <span class="sc">|&gt;</span> </span>
-<span id="cb37-3"><a href=""></a>  _[term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href=""></a>  _[season <span class="sc">==</span> <span class="st">"SON"</span>] <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href=""></a>  _[term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb38-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb38-4"><a href=""></a>  <span class="fu">geom_contour2</span>(<span class="at">data =</span> topo[lon <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">360</span>) <span class="sc">&amp;</span> lat <span class="sc">%between%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">10</span>)],</span>
-<span id="cb38-5"><a href=""></a>                <span class="fu">aes</span>(<span class="at">z =</span> topo), <span class="at">breaks =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb38-6"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb38-7"><a href=""></a>  <span class="fu">facet_grid</span>(term <span class="sc">~</span> name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb37-4"><a href=""></a>  geom_topo <span class="sc">+</span></span>
+<span id="cb37-5"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
+<span id="cb37-6"><a href=""></a>  <span class="fu">facet_grid</span>(term <span class="sc">~</span> name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/regression_spring-base-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -936,22 +917,19 @@ tp:
           display:block!important;
       }</style></aside>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb39-2"><a href=""></a>  <span class="fu">dt_pivot_wider</span>(<span class="at">names_from =</span> name, <span class="at">values_from =</span> estimate)</span>
-<span id="cb39-3"><a href=""></a></span>
-<span id="cb39-4"><a href=""></a>geom_topo <span class="ot">&lt;-</span> <span class="fu">geom_contour2</span>(<span class="at">data =</span> topo[lon <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">180</span>, <span class="dv">360</span>) <span class="sc">&amp;</span> lat <span class="sc">%between%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">10</span>)],</span>
-<span id="cb39-5"><a href=""></a>                           <span class="fu">aes</span>(<span class="at">z =</span> topo), <span class="at">breaks =</span> <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href=""></a>  <span class="fu">dt_pivot_wider</span>(<span class="at">names_from =</span> name, <span class="at">values_from =</span> estimate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40" data-code-line-numbers="|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb40-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb40-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
-<span id="cb40-4"><a href=""></a>  <span class="fu">geom_contour2</span>(<span class="fu">aes</span>(<span class="at">z =</span> z<span class="sc">/</span><span class="fl">9.8</span>, </span>
-<span id="cb40-5"><a href=""></a>                    <span class="at">linetype =</span> <span class="fu">after_stat</span>(<span class="fu">factor</span>(<span class="fu">sign</span>(<span class="sc">-</span>level))), </span>
-<span id="cb40-6"><a href=""></a>                    <span class="at">label =</span> <span class="fu">after_stat</span>(level))) <span class="sc">+</span></span>
-<span id="cb40-7"><a href=""></a>  geom_topo <span class="sc">+</span></span>
-<span id="cb40-8"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb40-9"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39" data-code-line-numbers="|4,5,6|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb39-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
+<span id="cb39-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_contour2</span>(<span class="fu">aes</span>(<span class="at">z =</span> z<span class="sc">/</span><span class="fl">9.8</span>, </span>
+<span id="cb39-5"><a href=""></a>                          <span class="at">linetype =</span> <span class="fu">after_stat</span>(<span class="fu">factor</span>(<span class="fu">sign</span>(<span class="sc">-</span>level))), </span>
+<span id="cb39-6"><a href=""></a>                          <span class="at">label =</span> <span class="fu">after_stat</span>(level))) <span class="sc">+</span></span>
+<span id="cb39-7"><a href=""></a>  geom_topo <span class="sc">+</span></span>
+<span id="cb39-8"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
+<span id="cb39-9"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/regression_spring-contours-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -971,22 +949,22 @@ tp:
           display:block!important;
       }</style></aside>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41" data-code-line-numbers="|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb41-2"><a href=""></a>  _[, <span class="fu">c</span>(<span class="st">"u"</span>, <span class="st">"v"</span>) <span class="sc">:</span><span class="er">=</span> metR<span class="sc">::</span><span class="fu">GeostrophicWind</span>(z, lon, lat), by <span class="ot">=</span> .(term)] <span class="sc">|&gt;</span> </span>
-<span id="cb41-3"><a href=""></a>  _[, <span class="fu">c</span>(<span class="st">"dlon"</span>, <span class="st">"dlat"</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(metR<span class="sc">::</span><span class="fu">dlon</span>(u, lat), metR<span class="sc">::</span><span class="fu">dlat</span>(v))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40" data-code-line-numbers="|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>regression_spring <span class="ot">&lt;-</span> regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href=""></a>  _[, <span class="fu">c</span>(<span class="st">"u"</span>, <span class="st">"v"</span>) <span class="sc">:</span><span class="er">=</span> metR<span class="sc">::</span><span class="fu">GeostrophicWind</span>(z, lon, lat), by <span class="ot">=</span> .(term)] <span class="sc">|&gt;</span> </span>
+<span id="cb40-3"><a href=""></a>  _[, <span class="fu">c</span>(<span class="st">"dlon"</span>, <span class="st">"dlat"</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(metR<span class="sc">::</span><span class="fu">dlon</span>(u, lat), metR<span class="sc">::</span><span class="fu">dlat</span>(v))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb42" data-code-line-numbers="|4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb42-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb42-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
-<span id="cb42-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_vector</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon, <span class="at">dy =</span> dlat), <span class="at">skip =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb42-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_mag</span>() <span class="sc">+</span></span>
-<span id="cb42-6"><a href=""></a>  geom_topo <span class="sc">+</span></span>
-<span id="cb42-7"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb42-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41" data-code-line-numbers="|4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb41-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
+<span id="cb41-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_vector</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon, <span class="at">dy =</span> dlat), <span class="at">skip =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_mag</span>() <span class="sc">+</span></span>
+<span id="cb41-6"><a href=""></a>  geom_topo <span class="sc">+</span></span>
+<span id="cb41-7"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
+<span id="cb41-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/regression_spring-vectors-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -994,32 +972,6 @@ tp:
 
 <aside class="notes">
 <p>An alternative that I like is to use <code>geom_streamline()</code>. This draws lines that follow the flow of the vector field:</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb43" data-code-line-numbers="|4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb43-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb43-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
-<span id="cb43-4"><a href=""></a>  metR<span class="sc">::</span><span class="fu">geom_streamline</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon , <span class="at">dy =</span> dlat),</span>
-<span id="cb43-5"><a href=""></a>                        <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">L =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb43-6"><a href=""></a>  geom_topo <span class="sc">+</span></span>
-<span id="cb43-7"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb43-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="script_files/figure-revealjs/regression_spring-streamlines-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section class="slide level2">
-
-<aside class="notes">
 <p>And to add more flair (and clarity, IMHO), we can remove the arrows and signal the direction of the streamlines by mapping the linewidth to the <code>step</code> computed variable, which goes from 0 to the number of steps in the line (in this case to the forth power to make the effect more dramatic).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1032,18 +984,30 @@ tp:
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<!-- ```{r regression_spring-streamlines} -->
+<!-- #| code-line-numbers: "|4,5" -->
+<!-- regression_spring |>  -->
+<!--   ggplot(aes(lon, lat)) + -->
+<!--   geom_contour_fill(aes(z = pp)) + -->
+<!--   metR::geom_streamline(aes(dx = dlon , dy = dlat), -->
+<!--                         skip = 5, L = 30) + -->
+<!--   geom_topo + -->
+<!--   scale_fill_divergent() + -->
+<!--   facet_wrap(~term, ncol = 1) -->
+<!-- ``` -->
+<!-- --- -->
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44" data-code-line-numbers="|5,6,7,8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb44-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb44-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
-<span id="cb44-4"><a href=""></a>  <span class="fu">geom_streamline</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon , <span class="at">dy =</span> dlat, </span>
-<span id="cb44-5"><a href=""></a>                      <span class="at">linewidth =</span> <span class="fu">after_stat</span>(step<span class="sc">^</span><span class="dv">4</span>)),</span>
-<span id="cb44-6"><a href=""></a>                  <span class="at">arrow =</span> <span class="cn">NULL</span>,</span>
-<span id="cb44-7"><a href=""></a>                  <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">L =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb44-8"><a href=""></a>  <span class="fu">scale_linewidth</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb44-9"><a href=""></a>  geom_topo <span class="sc">+</span></span>
-<span id="cb44-10"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
-<span id="cb44-11"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42" data-code-line-numbers="|4,5,6,7,8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb42-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb42-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href=""></a>  <span class="fu">geom_streamline</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon , <span class="at">dy =</span> dlat, </span>
+<span id="cb42-5"><a href=""></a>                      <span class="at">linewidth =</span> <span class="fu">after_stat</span>(step<span class="sc">^</span><span class="dv">4</span>)),</span>
+<span id="cb42-6"><a href=""></a>                  <span class="at">arrow =</span> <span class="cn">NULL</span>,  <span class="at">lineend =</span> <span class="st">"round"</span>,</span>
+<span id="cb42-7"><a href=""></a>                  <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">L =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb42-8"><a href=""></a>  <span class="fu">scale_linewidth</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb42-9"><a href=""></a>  geom_topo <span class="sc">+</span></span>
+<span id="cb42-10"><a href=""></a>  <span class="fu">scale_fill_divergent</span>() <span class="sc">+</span></span>
+<span id="cb42-11"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/regression_spring-streamdrops-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -1063,29 +1027,29 @@ tp:
           display:block!important;
       }</style></aside>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb45" data-code-line-numbers="|14,15|11,12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
-<span id="cb45-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
-<span id="cb45-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)), </span>
-<span id="cb45-4"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb45-5"><a href=""></a>  <span class="fu">geom_streamline</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon , <span class="at">dy =</span> dlat, </span>
-<span id="cb45-6"><a href=""></a>                      <span class="at">linewidth =</span> <span class="fu">after_stat</span>(step<span class="sc">^</span><span class="dv">4</span>)),</span>
-<span id="cb45-7"><a href=""></a>                  <span class="at">arrow =</span> <span class="cn">NULL</span>,</span>
-<span id="cb45-8"><a href=""></a>                  <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">L =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb45-9"><a href=""></a>  <span class="fu">scale_linewidth</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb45-10"><a href=""></a>  geom_topo <span class="sc">+</span></span>
-<span id="cb45-11"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>(<span class="at">low =</span> scales<span class="sc">::</span><span class="fu">muted</span>(<span class="st">"orange"</span>), </span>
-<span id="cb45-12"><a href=""></a>                                   <span class="at">high =</span> scales<span class="sc">::</span><span class="fu">muted</span>(<span class="st">"green"</span>)) <span class="sc">+</span></span>
-<span id="cb45-13"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb45-14"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_x_longitude</span>() <span class="sc">+</span></span>
-<span id="cb45-15"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_y_latitude</span>()  <span class="sc">+</span></span>
-<span id="cb45-16"><a href=""></a>  <span class="fu">coord_quickmap</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43" data-code-line-numbers="|14,15|11,12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>regression_spring <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(lon, lat)) <span class="sc">+</span></span>
+<span id="cb43-3"><a href=""></a>  <span class="fu">geom_contour_fill</span>(<span class="fu">aes</span>(<span class="at">z =</span> pp, <span class="at">fill =</span> <span class="fu">after_stat</span>(level)), </span>
+<span id="cb43-4"><a href=""></a>                    <span class="at">breaks =</span> <span class="fu">AnchorBreaks</span>(<span class="dv">0</span>, <span class="at">exclude =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb43-5"><a href=""></a>  <span class="fu">geom_streamline</span>(<span class="fu">aes</span>(<span class="at">dx =</span> dlon , <span class="at">dy =</span> dlat, </span>
+<span id="cb43-6"><a href=""></a>                      <span class="at">linewidth =</span> <span class="fu">after_stat</span>(step<span class="sc">^</span><span class="dv">4</span>)),</span>
+<span id="cb43-7"><a href=""></a>                  <span class="at">arrow =</span> <span class="cn">NULL</span>,  <span class="at">lineend =</span> <span class="st">"round"</span>,</span>
+<span id="cb43-8"><a href=""></a>                  <span class="at">skip =</span> <span class="dv">5</span>, <span class="at">L =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb43-9"><a href=""></a>  <span class="fu">scale_linewidth</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb43-10"><a href=""></a>  geom_topo <span class="sc">+</span></span>
+<span id="cb43-11"><a href=""></a>  <span class="fu">scale_fill_divergent_discretised</span>(<span class="at">low =</span> scales<span class="sc">::</span><span class="fu">muted</span>(<span class="st">"orange"</span>), </span>
+<span id="cb43-12"><a href=""></a>                                   <span class="at">high =</span> scales<span class="sc">::</span><span class="fu">muted</span>(<span class="st">"green"</span>)) <span class="sc">+</span></span>
+<span id="cb43-13"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb43-14"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_x_longitude</span>() <span class="sc">+</span></span>
+<span id="cb43-15"><a href=""></a>  metR<span class="sc">::</span><span class="fu">scale_y_latitude</span>()  <span class="sc">+</span></span>
+<span id="cb43-16"><a href=""></a>  <span class="fu">coord_quickmap</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="script_files/figure-revealjs/regression_spring-flair-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section class="slide level2">
 
 
-<img data-src="script_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<img data-src="script_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section class="slide level2">
 
 </section></section>
