@@ -38,7 +38,7 @@ library(tidyfast)
 Sys.setenv(TZ = 'GMT')
 ```
 
-# Reading data {background-image="img/mosaico-half.png" background-position="right" background-size="contain" background-opacity="1"}
+# Reading data {background-image="img/mosaico.png" background-position="right" background-size="contain" background-opacity="1"}
 
 ----
 
@@ -53,11 +53,10 @@ era5_sst <- "data/era_sst.nc"
 . . . 
 
 ```{r glance-era5_sst}
+#| code-line-numbers: "|2"
 era5_sst |> 
-  metR::GlanceNetCDF() # <1>
+  metR::GlanceNetCDF() 
 ```
-
-1. Access file metadata
 
 
 ---
@@ -65,16 +64,16 @@ era5_sst |>
 We can read one variable with `ReadNetCDF()`
 
 ```{r sst}
+#| code-line-numbers: "|2"
 sst <- era5_sst |> 
-  metR::ReadNetCDF(vars = "sst") # <1>
+  metR::ReadNetCDF() 
 ```
 
-1. Read only the sst variable
 
 By default, the result is a data.table.
 
 ```{r head-sst}
-head(na.omit(sst))
+na.omit(sst)
 ```
 
 
@@ -87,25 +86,25 @@ We can take a look at one slice of the data by subsetting the first time and plo
 ```{r look-sst}
 #| code-line-numbers: "|2|4"
 sst |> 
-  _[time == time[1]] |> 
+  _[time == as.POSIXct("1998-01-01")] |>  
   ggplot(aes(lon, lat)) +
   metR::geom_contour_fill(aes(z = sst))
 ```
 
 ----
 
-```{r monthly-mean-sst}
-#| code-line-numbers: "|2"
-sst |> 
-  _[, .(mean = mean(sst)), by = .(lon, lat, month(time))] |> 
-  ggplot(aes(lon, lat)) +
-  geom_contour_fill(aes(z = mean)) +
-  facet_wrap(~ month)
-```
+<!-- ```{r monthly-mean-sst} -->
+<!-- #| code-line-numbers: "|2" -->
+<!-- sst |>  -->
+<!--   _[, .(mean = mean(sst)), by = .(lon, lat, month(time))] |>  -->
+<!--   ggplot(aes(lon, lat)) + -->
+<!--   geom_contour_fill(aes(z = mean)) + -->
+<!--   facet_wrap(~ month) -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-We can also add a column with the departures from that climatological cycle. 
+<!-- We can also add a column with the departures from that climatological cycle.  -->
 
 ```{r anomalies-sst}
 sst <- sst[, sst_a := sst - mean(sst, na.rm = TRUE),
@@ -149,15 +148,30 @@ sst |>
 <!-- We can use the `level` computed variable, which is a discrete variable  -->
 
 
-```{r jan1998-sst-discretised}
+```{r jan1998-sst-discrete}
 #| code-line-numbers: "|5|6"
+#| output-location: fragment
 sst |> 
   _[time == as.POSIXct("1998-01-01")] |>  
   ggplot(aes(lon, lat)) +
   geom_contour_fill(aes(z = sst_a, 
-                        fill = after_stat(level))) + 
+                        fill = after_stat(level))) 
+```
+
+---
+
+
+
+```{r jan1998-sst-discretised}
+#| code-line-numbers: "|6"
+sst |> 
+  _[time == as.POSIXct("1998-01-01")] |>  
+  ggplot(aes(lon, lat)) +
+  geom_contour_fill(aes(z = sst_a, 
+                        fill = after_stat(level))) +
   metR::scale_fill_divergent_discretised()
 ```
+
 
 <!-- 1. Map fill to level; which is a discrete (factor) variable computed by `geom_contour_fill()`. -->
 <!-- 2. Use discretised scale, which understands the factors' format to create a 'continuous' scale with the correct breaks.  -->
@@ -176,13 +190,13 @@ sst |>
 
 ```
 
----
 
 ::: {.notes}
-
 Finally, one of my favourite tricks to give contours a bit of flair is to use illuminated contours. 
-
 :::
+
+---
+
 
 ```{r jan1998-sst-tanaka}
 #| code-line-numbers: "|6,7"
@@ -238,14 +252,21 @@ sst |>
 . . .
 
 ```{r eofs}
-#| code-line-numbers: "|2|3|4|5|6"
+#| code-line-numbers: "|2|3|4|5|6|7|"
 sst_eofs <- sst |>
   _[lon %between% c(150, 280) & lat %between% c(-10, 10)] |>
   na.omit() |>
   _[, sst_a := sst_a*sqrt(cos(lat*pi/180))] |>  
   metR::EOF(sst_a ~ time | lon + lat, 
             n = 1:10, 
+            rotate = stats::varimax,
             data = _) 
+```
+
+```{r}
+#| echo: false
+#| results: hide
+sst_eofs$sdev
 ```
 
 ---
@@ -256,7 +277,6 @@ sst_eofs <- sst |>
 
 ```{r peek-eofs-sdev}
 sst_eofs$sdev
-
 ```
 :::
 
@@ -283,13 +303,14 @@ Quick look with `screeplot()`:
 
 ```{r screeplot}
 screeplot(sst_eofs)
+
 ```
 
 
 ---
 
 ```{r spatial-eofs-hl}
-#| code-line-numbers: "|2|3|9"
+#| code-line-numbers: "|2|3"
 sst_eofs |> 
   cut(1:2) |> 
   _$right |> 
@@ -301,61 +322,29 @@ sst_eofs |>
   tagger::tag_facets()
 ```
 
----
+<!-- --- -->
 
-Rotate EOFs with the `rotate` argument. 
 
-```{r eofs-varimax}
-#| code-line-numbers: "|6"
-sst_eofs <- sst |>
-  _[lon %between% c(150, 280) & lat %between% c(-10, 10)] |> 
-  na.omit() |> 
-  _[, sst_a := sst_a*sqrt(cos(lat*pi/180))] |> 
-  EOF(sst_a ~ time | lon + lat, n = 1:10, data = _, 
-      rotate = stats::varimax) 
-```
-
----
-
-::: {.notes}
-After rotation, the first and second component share a greater percentage of the variance. 
-:::
-
-```{r screeplot-varimax}
-screeplot(sst_eofs)
-```
-
----
-
-```{r spatial-varimax}
-sst_eofs |> 
-  cut(1:2) |> 
-  _$right |> 
-  ggplot(aes(lon, lat)) + 
-  geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) +
-  scale_fill_divergent() +
-  facet_wrap(~ PC) +
-  tagger::tag_facets()
-```
-
----
-
-Add continents as reference. 
-Quick trick: draw zero contour of topography. 
+<!-- Add continents as reference.  -->
+<!-- Quick trick: draw zero contour of topography.  -->
 
 ```{r topo}
+#| echo: false
 topo <- ReadNetCDF("data/topo.nc")
+
+geom_topo <- geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
+                           aes(z = topo), breaks = 0) 
 ```
 
-```{r eofs-topo} 
-#| code-line-numbers: "|4"
-cut(sst_eofs, 1:2)$right |> 
-  ggplot(aes(lon, lat)) + 
-  geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) +
-  geom_contour2(data = topo, aes(z = topo), breaks = 0) +
-  scale_fill_divergent() +
-  facet_wrap(~ PC)
-```
+<!-- ```{r eofs-topo}  -->
+<!-- #| code-line-numbers: "|4" -->
+<!-- cut(sst_eofs, 1:2)$right |>  -->
+<!--   ggplot(aes(lon, lat)) +  -->
+<!--   geom_contour_fill(aes(z = sst_a), breaks = AnchorBreaks(0, exclude = 0)) + -->
+<!--   metR::geom_contour2(data = topo, aes(z = topo), breaks = 0) + -->
+<!--   scale_fill_divergent() + -->
+<!--   facet_wrap(~ PC) -->
+<!-- ``` -->
 
 ---
 
@@ -391,11 +380,12 @@ era5_variables |>
 . . .
 
 ```{r era5_vars}
-#| code-line-numbers: "|2|3,4"
+#| code-line-numbers: "|2|3,4,5"
 era5_vars <- era5_variables |> 
   ReadNetCDF(vars = c(pp = "tp", "z"), 
              subset = list(lon = c(180, 360), 
-                           lat = c(-90, -10))) 
+                           lat = c(-90, -10),
+                           level = 500)) 
 ```
 
 ---
@@ -411,21 +401,25 @@ head(era5_vars)
 
 ---
 
+Join data and EOFs
+
+
+```{r for_regression}
+for_regression <- cut(sst_eofs, 1:2)$left |> 
+  dt_pivot_wider(names_from = PC, values_from = sst_a) |> 
+  merge(era5_vars)
+
+for_regression
+```
+
+---
+
 Compute linear regression 
 
-::: {.notes}
-Because research suggests that the location of ENSO anomalies is important to understand the impact of ENSO, I'm going to to a multivariate linear regression using the first two PCs. 
-So first we cut the EOF to keep only the first 2, reshape into wide, and then join with our dataset before doing a linear regression at each point and also for each season.
-`FitLm()` is a wrapper around `stats::.lm.fit()`; we need to use this instead of regular old `lm()` because `lm()` is very slow at parsing the formula interface.
-:::
-
 ```{r regression}
-#| code-line-numbers: "|4|5"
-regression <- cut(sst_eofs, 1:2)$left |> 
-  dt_pivot_wider(names_from = PC, values_from = sst_a) |> 
-  era5_vars[i = _, on = .NATURAL, allow.cartesian = TRUE] |> 
-  _[, metR::FitLm(value_a, PC1, PC2),
-    by = .(lon, lat, season = metR::season(time), name)]
+#| code-line-numbers: "|2|1"
+regression <- for_regression[, metR::FitLm(value_a, PC1, PC2),
+                             by = .(lon, lat, season = metR::season(time), name)]
 ```
 
 . . .
@@ -450,8 +444,7 @@ regression_spring <- regression |>
 regression_spring |> 
   ggplot(aes(lon, lat)) +
   geom_contour_fill(aes(z = estimate)) +
-  geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
-                aes(z = topo), breaks = 0) +
+  geom_topo +
   scale_fill_divergent() +
   facet_grid(term ~ name)
 ```
@@ -459,31 +452,26 @@ regression_spring |>
 ---
 
 ::: {.notes}
-
 The problem here is that precipitation and geopotential height are in completely differnet units so we cannot represent both in the same colour scale. 
 We could use different colour scales using ggnewscale, but I'm going to plot one variable with filled contours and the other with regular lines. 
 To know the value of each contour, I'm going to use the `label` aesthetic to print the level
-
 :::
 
 ```{r regression_spring-wider}
 regression_spring <- regression_spring |> 
   dt_pivot_wider(names_from = name, values_from = estimate)
-
-geom_topo <- geom_contour2(data = topo[lon %between% c(180, 360) & lat %between% c(-90, -10)],
-                           aes(z = topo), breaks = 0) 
 ```
 
 
 
 ```{r regression_spring-contours}
-#| code-line-numbers: "|5|6"
+#| code-line-numbers: "|4,5,6|6"
 regression_spring |> 
   ggplot(aes(lon, lat)) +
   geom_contour_fill(aes(z = pp)) +
-  geom_contour2(aes(z = z/9.8, 
-                    linetype = after_stat(factor(sign(-level))), 
-                    label = after_stat(level))) +
+  metR::geom_contour2(aes(z = z/9.8, 
+                          linetype = after_stat(factor(sign(-level))), 
+                          label = after_stat(level))) +
   geom_topo +
   scale_fill_divergent() +
   facet_wrap(~term, ncol = 1)
@@ -526,34 +514,33 @@ regression_spring |>
 ::: {.notes}
 An alternative that I like is to use `geom_streamline()`. 
 This draws lines that follow the flow of the vector field: 
-:::
 
-```{r regression_spring-streamlines}
-#| code-line-numbers: "|4,5"
-regression_spring |> 
-  ggplot(aes(lon, lat)) +
-  geom_contour_fill(aes(z = pp)) +
-  metR::geom_streamline(aes(dx = dlon , dy = dlat),
-                        skip = 5, L = 30) +
-  geom_topo +
-  scale_fill_divergent() +
-  facet_wrap(~term, ncol = 1)
-```
-
----
-
-::: {.notes}
 And to add more flair (and clarity, IMHO), we can remove the arrows and signal the direction of the streamlines by mapping the linewidth to the `step` computed variable, which goes from 0 to the number of steps in the line (in this case to the forth power to make the effect more dramatic).
 :::
 
+<!-- ```{r regression_spring-streamlines} -->
+<!-- #| code-line-numbers: "|4,5" -->
+<!-- regression_spring |>  -->
+<!--   ggplot(aes(lon, lat)) + -->
+<!--   geom_contour_fill(aes(z = pp)) + -->
+<!--   metR::geom_streamline(aes(dx = dlon , dy = dlat), -->
+<!--                         skip = 5, L = 30) + -->
+<!--   geom_topo + -->
+<!--   scale_fill_divergent() + -->
+<!--   facet_wrap(~term, ncol = 1) -->
+<!-- ``` -->
+
+<!-- --- -->
+
+
 ```{r regression_spring-streamdrops}
-#| code-line-numbers: "|5,6,7,8"
+#| code-line-numbers: "|4,5,6,7,8"
 regression_spring |> 
   ggplot(aes(lon, lat)) +
   geom_contour_fill(aes(z = pp)) +
   geom_streamline(aes(dx = dlon , dy = dlat, 
                       linewidth = after_stat(step^4)),
-                  arrow = NULL,
+                  arrow = NULL,  lineend = "round",
                   skip = 5, L = 30) +
   scale_linewidth(range = c(0.01, 0.6), guide = "none") +
   geom_topo +
@@ -577,7 +564,7 @@ regression_spring |>
                     breaks = AnchorBreaks(0, exclude = 0)) +
   geom_streamline(aes(dx = dlon , dy = dlat, 
                       linewidth = after_stat(step^4)),
-                  arrow = NULL,
+                  arrow = NULL,  lineend = "round",
                   skip = 5, L = 30) +
   scale_linewidth(range = c(0.01, 0.6), guide = "none") +
   geom_topo +
@@ -599,7 +586,7 @@ regression_spring |>
                     breaks = AnchorBreaks(0, exclude = 0)) +
   geom_streamline(aes(dx = dlon , dy = dlat, 
                       linewidth = after_stat(step^4)),
-                  arrow = NULL,
+                  arrow = NULL, lineend = "round",
                   skip = 5, L = 30) +
   scale_linewidth(range = c(0.01, 0.6), guide = "none") +
   geom_topo +
