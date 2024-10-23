@@ -615,4 +615,4 @@ regression_spring |>
 
 [eliocamp.github.io/](https://eliocamp.github.io/)
 
-
+[eliocamp.github.io/slides/wombat2024](eliocamp.github.io/slides/wombat2024)
